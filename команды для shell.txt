@@ -1,0 +1,43 @@
+Создать пользователя:
+u1=User.objects.create.User 
+
+Модели объекта Author:
+Author.objects.create(authorUser=u1)
+
+Создать категорию:
+Category.objects.create(name='category name')
+
+Добавить статью:
+Post.objects.create(author=author, categoryType='NW', title='sometitle', text='sometext')
+
+Добавить комментарий к объектам Post:
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1), text='text')
+
+Лайк/дизлайк к комментариям:
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+
+Лайк/дизлайк к постам:
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).dislike()
+
+
+Присвоить категорию постам:
+Post.objects.get(id=1)post.Category.add(Category.objects.get(id=1))
+
+Рейтинг пользователей:
+Author.objects.get(id=1).update_rating()
+Author.objects.get(id=1).ratingAuthor
+
+Вывод автора с самым высоким рейтингом:
+>>> for i in Author.objects.order_by('-ratingAuthor')[:1]:
+...     i.ratingAuthor
+...     i.authorUser.username
+
+Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье:
+
+Post.objects.order_by('-rating').values('dateCreation', 'author_id__authorUser__username', 'rating', 'title')[0]
+
+
+Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье:
+Post.objects.order_by('-rating').first().comments.all().values('dateCreation', 'commentUser_id__authorUser__username', 'rating', 'text')
