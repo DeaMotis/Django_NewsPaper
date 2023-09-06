@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.urls import reverse
+from django.core.validators import MinValueValidator
 
 
 class Author(models.Model):
@@ -45,11 +46,15 @@ class Post(models.Model):
     )
     categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
     dateCreation = models.DateTimeField(auto_now_add=True)
+    create_post = models.DateTimeField(auto_now_add=True)
     postCategory = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
+    def category_list(self):
+        return (", ".join([category.name_category for category in self.category.all()]))
+        author_names.short_description = 'Категории'
     def like(self):
         self.rating += 1
         self.save()
@@ -87,3 +92,5 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+

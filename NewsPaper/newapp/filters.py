@@ -1,7 +1,7 @@
 import django_filters
 from django_filters import FilterSet, DateTimeFilter, ModelChoiceFilter, CharFilter
 from .models import Post, Category
-from django.forms import DateTimeInput
+from django.forms import DateTimeInput, DateInput
 
 
 class PostFilter(FilterSet):
@@ -12,14 +12,14 @@ class PostFilter(FilterSet):
     )
 
     categoryType = django_filters.ModelChoiceFilter(
-        field_name='categoryType',
+        field_name='postCategory',
         queryset=Category.objects.all(),
         label='Категории',
         empty_label='Выберите категорию ',
     )
 
-    dataCreation_after = DateTimeFilter(
-        field_name='dataCreation',
+    dateCreation_after = DateTimeFilter(
+        field_name='dateCreation',
         lookup_expr='gt',
         label='Дата',
         widget=DateTimeInput(

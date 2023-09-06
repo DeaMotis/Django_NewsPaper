@@ -8,7 +8,6 @@ Post
 
 {% block content %}
 <h1>{{ Post.dateCreation|date:'d M Y' }}</h1>
-<h1>{{ Post.text|censor}}</h1>
 <h1>{{ Post.title|censor}}</h1>
-<h>{{ Post.text }}</h>
+<h>{{ Post.text|censor }}</h>
 {% endblock content %}

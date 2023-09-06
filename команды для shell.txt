@@ -1,5 +1,5 @@
 Создать пользователя:
-u1=User.objects.create.User 
+u1=User.objects.create_user(username='Anna')
 
 Модели объекта Author:
 Author.objects.create(authorUser=u1)
@@ -23,7 +23,7 @@ Post.objects.get(id=3).dislike()
 
 
 Присвоить категорию постам:
-Post.objects.get(id=1)post.Category.add(Category.objects.get(id=1))
+ Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
 
 Рейтинг пользователей:
 Author.objects.get(id=1).update_rating()
