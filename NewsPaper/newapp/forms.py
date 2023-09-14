@@ -13,20 +13,17 @@ class PostForm(forms.ModelForm):
         fields = [
             'title',
             'text',
-            #'categoryType',
             'postCategory',
+            'author',
         ]
 
         labels = {
             'title': 'Title',
             'text': 'Text',
-            #'categoryType': 'Type',
             'postCategory': 'Category',
+            'author': 'author',
         }
 
-    #def __init__(self, *args, **kwargs):
-        #super(PostForm, self).__init__(*args, **kwargs)
-        #self.fields['categoryType'].empty_label = 'Выберите категорию'
 
     def clean(self):
         cleaned_data = super().clean()
@@ -48,3 +45,5 @@ class PostForm(forms.ModelForm):
             )
         return name
 
+    def __str__(self):
+        return self.user.username

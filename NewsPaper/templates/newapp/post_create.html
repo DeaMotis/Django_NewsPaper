@@ -8,10 +8,10 @@
 {% block content %}
 <h1> Добавление новости </h1>
 <hr>
-<form action="news/create/" method="post">
+<form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit">Добавить новость</button>
+    <input type="submit" value='Добавить новость'>
 </form>
 {% endblock content %}
