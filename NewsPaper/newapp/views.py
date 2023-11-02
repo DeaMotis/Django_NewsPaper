@@ -1,13 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateView
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 
 from .filters import PostFilter
 from .forms import PostForm
 from .models import *
+
+@login_required
+def show_protected_page(request):
+    pass
 
 class PostList(ListView):
     model = Post
@@ -43,7 +50,8 @@ class PostDetail(DetailView):
     template_name = 'newapp/post_detail.html'
     context_object_name = 'Post'
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, CreateView):
+    permission_required = ('newapp.add_Post',)
     form_class = PostForm
     model = Post
     template_name = 'newapp/post_create.html'
@@ -53,7 +61,8 @@ class PostCreate(CreateView):
         post.categoryType = 'NW'
         return super().form_valid(form)
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, CreateView):
+    permission_required = ('newapp.add_Post',)
     form_class = PostForm
     model = Post
     template_name = 'newapp/article_create.html'
@@ -63,24 +72,26 @@ class ArticleCreate(CreateView):
         post.categoryType = 'AR'
         return super().form_valid(form)
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newapp.delete_Post',)
     model = Post
     template_name = 'newapp/post_delete.html'
-    permission_required = ('news.delete_post')
     success_url = reverse_lazy('post_list')
 
-class PostEdit(UpdateView):
+class PostEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('newapp.change_Post',)
     model = Post
     form_class = PostForm
     template_name = 'newapp/post_edit.html'
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newapp.delete_Post',)
     model = Post
-    permission_required = ('news.delete_post')
     template_name = 'newapp/article_delete.html'
     success_url = reverse_lazy('article_list')
 
-class ArticleEdit(UpdateView):
+class ArticleEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('newapp.change_Post',)
     model = Post
     form_class = PostForm
     template_name = 'newapp/article_edit.html'

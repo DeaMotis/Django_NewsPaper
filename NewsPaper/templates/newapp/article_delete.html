@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Удаление статьи</h1>
 <hr>
-<form action="" method="post">
+<form action="" method="Post">
 {% csrf_token %}
 <p>Удаляем "{{ object.title }}"?</p>
 <input type="submit" value="Delete" />

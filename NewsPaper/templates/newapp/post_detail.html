@@ -5,9 +5,10 @@
 Post
 {% endblock title %}
 
-
 {% block content %}
-<h1>{{ Post.dateCreation|date:'d M Y' }}</h1>
 <h1>{{ Post.title|censor}}</h1>
+<h1>{{ Post.dateCreation|date:'d M Y' }}</h1>
 <h>{{ Post.text|censor }}</h>
+    <p><a href="{% url 'post_delete' object.id %}">Delete</a></p>
+    <p><a href="{% url 'post_edit' object.id %}">Edit</a></p>
 {% endblock content %}
