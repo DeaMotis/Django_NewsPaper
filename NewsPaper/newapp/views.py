@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -23,6 +24,7 @@ class PostList(ListView):
     context_object_name = 'Posts'
     paginate_by = 10
 
+
 class PostSearch(ListView):
     model = Post
     template_name = 'post_list'
@@ -33,7 +35,6 @@ class PostSearch(ListView):
         queryset = super().get_queryset()
         self.filterset = PostFilter(self.request.GET, queryset)
         return self.filterset.qs
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,6 +61,10 @@ class PostCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, Create
         post = form.save(commit=False)
         post.categoryType = 'NW'
         return super().form_valid(form)
+
+    def add_post(request):
+        if not request.user.has_perm('newapp.add_post'):
+            raise PermissionDenied
 
 class ArticleCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, CreateView):
     permission_required = ('newapp.add_Post',)
@@ -92,8 +97,8 @@ class ArticleDelete(PermissionRequiredMixin, DeleteView):
 
 class ArticleEdit(PermissionRequiredMixin, UpdateView):
     permission_required = ('newapp.change_Post',)
-    model = Post
     form_class = PostForm
+    model = Post
     template_name = 'newapp/article_edit.html'
 
 class AuthorCreateView(CreateView):
