@@ -21,7 +21,6 @@ class Author(models.Model):
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
 
-
     def __str__(self):
         return f'{self.authorUser}'
 
@@ -29,14 +28,16 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Автор'
 
+
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
         return f'{self.name}'
 
+
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
 
     NEWS = 'NW'
     ARTICLE = 'AR'
@@ -55,6 +56,7 @@ class Post(models.Model):
     def category_list(self):
         return (", ".join([category.name_category for category in self.category.all()]))
         author_names.short_description = 'Категории'
+
     def like(self):
         self.rating += 1
         self.save()
@@ -94,3 +96,14 @@ class Comment(models.Model):
         self.save()
 
 
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscription',
+    )
+    category = models.ForeignKey(
+        to='postCategory',
+        on_delete=models.CASCADE,
+        related_name='subscription',
+    )

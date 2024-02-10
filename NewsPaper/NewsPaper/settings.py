@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -151,5 +152,27 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "d3amotis"  # не полностью эмейл, а только первая часть до собаки @ реального адреса
+EMAIL_HOST_PASSWORD = "xbukjvpovreezbpd"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "d3amotis@yandex.ru"
+SERVER_EMAIL = "d3amotis@yandex.ru"
+
+MANAGERS = (
+    ('Bob', 'user@gmail.com'),
+    ('Ivi', 'deamotis.2@mail.ru'),
+)
+
+ADMINS = (
+    ('anton', 'anton@yandex.ru'),
+    ('Ivi', 'deamotis.2@mail.ru')
+)
