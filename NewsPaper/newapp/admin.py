@@ -9,7 +9,7 @@ class CategoryInline(admin.TabularInline):
 
 class PostAdmin(admin.ModelAdmin):
     model = Post
-    inline = (CategoryInline,)
+    inlines = (CategoryInline,)
 
 
 admin.site.register(Post, PostAdmin)
