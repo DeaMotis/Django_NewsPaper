@@ -10,10 +10,10 @@ from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateVi
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-
 from .filters import PostFilter
 from .forms import PostForm
 from .models import *
+
 
 @login_required
 @csrf_protect
@@ -44,6 +44,8 @@ def subscriptions(request):
         'subscriptions.html',
         {'categories': categories_with_subscriptions},
     )
+
+
 class PostList(ListView):
     model = Post
     ordering = 'dateCreation'
@@ -68,17 +70,20 @@ class PostSearch(ListView):
         context['filterset'] = self.filterset
         return context
 
+
 class AuthorList(ListView):
     model = Author
     context_object_name = 'Authors'
     templates_name = 'newapp/authors.html'
+
 
 class PostDetail(DetailView):
     model = Post
     template_name = 'newapp/post_detail.html'
     context_object_name = 'Post'
 
-class PostCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, CreateView):
+
+class PostCreate(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     permission_required = ('newapp.add_Post',)
     form_class = PostForm
     model = Post
@@ -93,7 +98,8 @@ class PostCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, Create
         if not request.user.has_perm('newapp.add_post'):
             raise PermissionDenied
 
-class ArticleCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, CreateView):
+
+class ArticleCreate(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     permission_required = ('newapp.add_Post',)
     form_class = PostForm
     model = Post
@@ -104,11 +110,13 @@ class ArticleCreate(PermissionRequiredMixin, UpdateView, LoginRequiredMixin, Cre
         post.categoryType = 'AR'
         return super().form_valid(form)
 
+
 class PostDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ('newapp.delete_Post',)
     model = Post
     template_name = 'newapp/post_delete.html'
     success_url = reverse_lazy('post_list')
+
 
 class PostEdit(PermissionRequiredMixin, UpdateView):
     permission_required = ('newapp.change_Post',)
@@ -116,17 +124,20 @@ class PostEdit(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     template_name = 'newapp/post_edit.html'
 
+
 class ArticleDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ('newapp.delete_Post',)
     model = Post
     template_name = 'newapp/article_delete.html'
     success_url = reverse_lazy('article_list')
 
+
 class ArticleEdit(PermissionRequiredMixin, UpdateView):
     permission_required = ('newapp.change_Post',)
     form_class = PostForm
     model = Post
     template_name = 'newapp/article_edit.html'
+
 
 class AuthorCreateView(CreateView):
     model = Author

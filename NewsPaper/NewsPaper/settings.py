@@ -168,7 +168,7 @@ DEFAULT_FROM_EMAIL = "d3amotis@yandex.ru"
 SERVER_EMAIL = "d3amotis@yandex.ru"
 
 MANAGERS = (
-    ('Bob', 'user@gmail.com'),
+    ('Bob', 's1delnickov.m@yandex.ru'),
     ('Ivi', 'deamotis.2@mail.ru'),
 )
 
