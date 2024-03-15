@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
     'django_apscheduler',
+    'django_celery_beat',
 ]
 
 SITE_ID = 1
@@ -143,6 +144,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
@@ -176,3 +179,5 @@ ADMINS = (
     ('anton', 'anton@yandex.ru'),
     ('Ivi', 'deamotis.2@mail.ru')
 )
+
+SITE_URL ='http://127.0.0.1:8000'
