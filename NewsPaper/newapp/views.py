@@ -10,6 +10,9 @@ from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateVi
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+
 from .filters import PostFilter
 from .forms import PostForm
 from .models import *
@@ -81,6 +84,14 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'newapp/post_detail.html'
     context_object_name = 'Post'
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+                obj = super().get_object(queryset=self.queryset)
+                cache.set(f'product-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 class PostCreate(PermissionRequiredMixin, LoginRequiredMixin, CreateView):

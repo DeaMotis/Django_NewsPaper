@@ -1,3 +1,4 @@
+{% load cache %}
 {% extends 'flatpages/default.html' %}
 {% load custom_filters %}
 {% load custom_tags %}
@@ -21,6 +22,7 @@ News
     {% if Posts %}
         <table>
             <tr>
+                {% cache 500 sidebar %}
                 <td> <b>Заголовок</b> </td>
                 <td> <b>Дата публикации</b> </td>
                 <td> <b>Текст</b> </td>
@@ -29,6 +31,7 @@ News
                 <td> <b>Действия</b> </td>
                 {% endif %}
             </tr>
+
             {% for post in Posts %}
             <tr>
                 <td>{{ post.title|censor }}</td>
@@ -46,6 +49,7 @@ News
 
             </tr>
             {% endfor %}
+            {% endcache %}
         </table>
     {% else %}
         <h2>Постов нет!</h2>
