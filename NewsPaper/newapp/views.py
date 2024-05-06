@@ -16,7 +16,9 @@ from django.core.cache import cache
 from .filters import PostFilter
 from .forms import PostForm
 from .models import *
+import logging
 
+logger = logging.getLogger(__name__)
 
 @login_required
 @csrf_protect
@@ -87,7 +89,7 @@ class PostDetail(DetailView):
 
     def get_object(self, *args, **kwargs):
         obj = cache.get(f'post-{self.kwargs["pk"]}', None)
-
+        # если объекта нет в кэше, то получаем его и записываем в кэш
         if not obj:
                 obj = super().get_object(queryset=self.queryset)
                 cache.set(f'product-{self.kwargs["pk"]}', obj)
