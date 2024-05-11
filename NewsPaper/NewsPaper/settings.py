@@ -203,24 +203,32 @@ LOGGING = {
     'disable_existing_loggers': False,
     'style': '{',
 
+    #форматер - формат записи сообщений
     'formatters': {
         'simple': {
-            'format': '%(asctime)s  %(levelname)s  %(message)s'
+            'format': '%(asctime)s  %(levelname)s  %(message)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
         },
         'warning': {
-            'format': '             %(pathname)s'
+            'format': '%(asctime)s  %(levelname)s  %(message)s %(pathname)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
         },
         'error_and_critical': {
-            'format': '             %(exc_info)s'
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
+
         },
         'general_': {
-            'format': '%(asctime)s  %(levelname)s  %(module)s  %(message)s'
+            'format': '%(asctime)s  %(levelname)s  %(module)s  %(message)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
         },
         'errors_': {
-            'format': '%(asctime)s  %(levelname)s  %(message)s  %(pathname)s  %(exc_info)s'
+            'format': '%(asctime)s  %(levelname)s  %(message)s  %(pathname)s  %(exc_info)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
         },
         'email_': {
-            'format': '%(asctime)s  %(levelname)s  %(message)s  %(pathname)s'
+            'format': '%(asctime)s  %(levelname)s  %(message)s  %(pathname)s',
+            'datefmt': '%d.%m.%Y %H-%M-%S',
         },
     },
 
@@ -278,31 +286,37 @@ LOGGING = {
             'formatter': 'email_'
         },
     },
-
+#регистраторы
     'loggers': {
         'django': {
+            'level': 'DEBUG',  #добавляем,чтобы попадало с уровня DEBUG (по умолчанию уровень - INFO)
             'handlers': ['console_debug', 'console_warning', 'console_error', 'general_log', ],
             'propagate': True,
         },
         'django.request': {
+            'level': 'ERROR',
             'handlers': ['errors_log', 'email', ],
             'propagate': True,
         },
         'django.server': {
+            'level': 'ERROR',
             'handlers': ['errors_log', 'email', ],
             'propagate': True,
         },
         'django.template': {
+            'level': 'ERROR',
             'handlers': ['errors_log'],
             'propagate': True,
         },
         'django.db.backends': {
+            'level': 'ERROR',
             'handlers': ['errors_log'],
             'propagate': True,
         },
         'django.security': {
+            'level': 'INFO',      #по умолчанию  Warning
             'handlers': ['security_log'],
-            'propagate': True,
+            'propagate': False,
         },
     }
 }
